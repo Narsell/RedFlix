@@ -5,10 +5,15 @@
  */
 package com.redflix.app.repos;
 
+import com.redflix.app.modelos.Serie;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author Daniel
  */
-public class SerieRepo {
+@Repository
+public interface SerieRepo extends JpaRepository<Serie, Long>{
     
 }

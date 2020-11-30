@@ -9,8 +9,14 @@ import com.redflix.app.RedflixApplication;
 import com.redflix.app.SpringContext;
 import com.redflix.app.modelos.Director;
 import com.redflix.app.modelos.Pelicula;
+import com.redflix.app.modelos.Serie;
+import com.redflix.app.modelos.Usuario;
 import com.redflix.app.repos.DirectorRepo;
 import com.redflix.app.repos.PeliculaRepo;
+import com.redflix.app.repos.SerieRepo;
+import com.redflix.app.repos.UsuarioRepo;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,6 +26,8 @@ public class Ventana extends javax.swing.JFrame {
     
     PeliculaRepo peliculaRepo;
     DirectorRepo directorRepo;
+    UsuarioRepo usuarioRepo;
+    SerieRepo serieRepo;
 
     /**
      * Creates new form Ventana
@@ -31,6 +39,8 @@ public class Ventana extends javax.swing.JFrame {
         
         peliculaRepo = SpringContext.getBean(PeliculaRepo.class);
         directorRepo = SpringContext.getBean(DirectorRepo.class);
+        usuarioRepo = SpringContext.getBean(UsuarioRepo.class);
+        serieRepo = SpringContext.getBean(SerieRepo.class);
     }
 
     /**
@@ -43,10 +53,19 @@ public class Ventana extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jpUsuarios = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        tfUsuarioAlias = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        tfUsuarioNombre = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        tfUsuarioApellido = new javax.swing.JTextField();
+        CrearUs = new javax.swing.JButton();
+        NotificacionesUs = new javax.swing.JLabel();
+        EditarUs = new javax.swing.JButton();
+        jpPeliculas = new javax.swing.JPanel();
         CrearPel = new javax.swing.JButton();
-        Notificaciones = new javax.swing.JLabel();
+        NotificacionesPel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         tfPelTitulo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -59,21 +78,97 @@ public class Ventana extends javax.swing.JFrame {
         tfNombreDir = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         tfApellidoDir = new javax.swing.JTextField();
+        EliminarPel = new javax.swing.JButton();
+        jpSeries = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        tfSerTitulo = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        ftSerTemp = new javax.swing.JFormattedTextField();
+        jLabel12 = new javax.swing.JLabel();
+        ftSerCap = new javax.swing.JFormattedTextField();
+        CrearSerie = new javax.swing.JButton();
+        NotificacionesSerie = new javax.swing.JLabel();
+        BuscarSerie = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel7.setText("Alias");
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel8.setText("Nombre");
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel9.setText("Apellido");
+
+        CrearUs.setText("Crear");
+        CrearUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearUsActionPerformed(evt);
+            }
+        });
+
+        NotificacionesUs.setBackground(new java.awt.Color(51, 255, 51));
+        NotificacionesUs.setForeground(new java.awt.Color(0, 204, 51));
+
+        EditarUs.setText("Editar");
+        EditarUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarUsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpUsuariosLayout = new javax.swing.GroupLayout(jpUsuarios);
+        jpUsuarios.setLayout(jpUsuariosLayout);
+        jpUsuariosLayout.setHorizontalGroup(
+            jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpUsuariosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(NotificacionesUs, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpUsuariosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpUsuariosLayout.createSequentialGroup()
+                        .addComponent(CrearUs, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(EditarUs, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(tfUsuarioAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfUsuarioNombre)
+                        .addComponent(tfUsuarioApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(127, 127, 127))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 249, Short.MAX_VALUE)
+        jpUsuariosLayout.setVerticalGroup(
+            jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpUsuariosLayout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfUsuarioAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(tfUsuarioNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(tfUsuarioApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jpUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CrearUs, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EditarUs, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(77, 77, 77)
+                .addComponent(NotificacionesUs, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
-        jTabbedPane1.addTab("Usuarios", jPanel3);
+        jTabbedPane1.addTab("Usuarios", jpUsuarios);
 
         CrearPel.setText("Crear");
         CrearPel.addActionListener(new java.awt.event.ActionListener() {
@@ -82,8 +177,8 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        Notificaciones.setBackground(new java.awt.Color(51, 255, 51));
-        Notificaciones.setForeground(new java.awt.Color(0, 204, 51));
+        NotificacionesPel.setBackground(new java.awt.Color(51, 255, 51));
+        NotificacionesPel.setForeground(new java.awt.Color(0, 204, 51));
 
         jLabel1.setText("Titulo");
 
@@ -98,84 +193,171 @@ public class Ventana extends javax.swing.JFrame {
         ftfPelAño.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         jLabel6.setBackground(new java.awt.Color(0, 204, 0));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel6.setText("Datos del director");
 
         jLabel4.setText("Nombre");
 
         jLabel5.setText("Apellido");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        EliminarPel.setText("Eliminar");
+        EliminarPel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarPelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpPeliculasLayout = new javax.swing.GroupLayout(jpPeliculas);
+        jpPeliculas.setLayout(jpPeliculasLayout);
+        jpPeliculasLayout.setHorizontalGroup(
+            jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpPeliculasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(43, 43, 43)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jspPelRes, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(tfPelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(1, 1, 1)
-                                        .addComponent(ftfPelAño, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(48, 48, 48))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(NotificacionesPel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jpPeliculasLayout.createSequentialGroup()
+                        .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jpPeliculasLayout.createSequentialGroup()
+                                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(6, 6, 6)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(tfApellidoDir, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                                    .addComponent(tfNombreDir))
-                                .addGap(60, 60, 60)
-                                .addComponent(CrearPel)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(Notificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(tfApellidoDir)
+                                    .addComponent(tfNombreDir, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CrearPel)
+                        .addGap(11, 11, 11))
+                    .addGroup(jpPeliculasLayout.createSequentialGroup()
+                        .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)
+                        .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jpPeliculasLayout.createSequentialGroup()
+                                .addComponent(ftfPelAño, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jspPelRes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpPeliculasLayout.createSequentialGroup()
+                                .addComponent(tfPelTitulo)
+                                .addGap(18, 18, 18)
+                                .addComponent(EliminarPel)))))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jpPeliculasLayout.setVerticalGroup(
+            jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPeliculasLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfPelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftfPelAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EliminarPel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jspPelRes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addGap(18, 18, 18)
+                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfPelAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpPeliculasLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfNombreDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jpPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfApellidoDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)))
-                    .addComponent(CrearPel, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
+                    .addGroup(jpPeliculasLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CrearPel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Notificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(NotificacionesPel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Peliculas", jPanel1);
+        jTabbedPane1.addTab("Peliculas", jpPeliculas);
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel10.setText("Titulo");
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel11.setText("Temporadas");
+
+        jLabel12.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel12.setText("Capítulos");
+
+        CrearSerie.setText("Crear");
+        CrearSerie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearSerieActionPerformed(evt);
+            }
+        });
+
+        NotificacionesSerie.setBackground(new java.awt.Color(51, 255, 51));
+        NotificacionesSerie.setForeground(new java.awt.Color(0, 204, 51));
+
+        BuscarSerie.setText("Buscar");
+        BuscarSerie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarSerieActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpSeriesLayout = new javax.swing.GroupLayout(jpSeries);
+        jpSeries.setLayout(jpSeriesLayout);
+        jpSeriesLayout.setHorizontalGroup(
+            jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpSeriesLayout.createSequentialGroup()
+                .addComponent(NotificacionesSerie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpSeriesLayout.createSequentialGroup()
+                .addGap(0, 115, Short.MAX_VALUE)
+                .addGroup(jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpSeriesLayout.createSequentialGroup()
+                        .addComponent(tfSerTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BuscarSerie))
+                    .addComponent(ftSerCap, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftSerTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CrearSerie))
+                .addGap(63, 63, 63))
+        );
+        jpSeriesLayout.setVerticalGroup(
+            jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpSeriesLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(tfSerTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BuscarSerie))
+                .addGap(18, 18, 18)
+                .addGroup(jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(ftSerTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jpSeriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(ftSerCap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(CrearSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(NotificacionesSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Series", jpSeries);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,19 +375,110 @@ public class Ventana extends javax.swing.JFrame {
 
     private void CrearPelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearPelActionPerformed
         // TODO add your handling code here:
-        Pelicula pelicula = obtenerDatosDeFormulario();
+        Pelicula pelicula = obtenerDatosDeFormularioPel();
         Long id;
         id = null;
         pelicula.setPelId(id);
         try{
             peliculaRepo.save(pelicula);
-            Notificaciones.setText("Se registró correctamente la pelicula " + pelicula.getPelTitulo());
+            NotificacionesPel.setText("Se registró correctamente la pelicula " + pelicula.getPelTitulo());
             System.out.println("Se registró correctamente la pelicula " + pelicula.getPelTitulo());
         }catch(Exception e){
-            Notificaciones.setText("Ocurrió un error al guardar.");
+            NotificacionesPel.setText("Ocurrió un error al guardar.");
             System.out.println(e);
         }
     }//GEN-LAST:event_CrearPelActionPerformed
+
+    private void CrearUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearUsActionPerformed
+        // TODO add your handling code here:
+        Usuario usuario = obtenerDatosDeFormularioUs();
+        String alias = BuscarUsuario();
+        if(alias == null){
+            try {
+                usuarioRepo.save(usuario);
+                NotificacionesUs.setText("Se registró correctamente el usuario " + usuario.getUsAlias());
+                System.out.println("Se registró correctamente el usuario " + usuario.getUsAlias());
+            } catch (Exception e) {
+                NotificacionesUs.setText("Ocurrió un error al guardar.");
+                System.out.println(e);
+            }
+        } else {
+            String msg = "Lo sentimos el usuario no se encuentra disponible";
+            NotificacionesUs.setText(msg);
+            System.out.println(msg);
+        }
+
+    }//GEN-LAST:event_CrearUsActionPerformed
+
+    private void CrearSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearSerieActionPerformed
+        Serie serie = obtenerDatosDeFormularioSerie();
+        
+        try {
+            serieRepo.save(serie);
+            NotificacionesSerie.setText("Se registró correctamente la serie " + serie.getSerTitulo());
+            System.out.println("Se registró correctamente la serie " + serie.getSerTitulo());
+        } catch (Exception e) {
+            NotificacionesSerie.setText("Ocurrió un error al guardar.");
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_CrearSerieActionPerformed
+
+    private void BuscarSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarSerieActionPerformed
+        List<Serie> series = serieRepo.findAll();
+        String SerieTitulo = tfSerTitulo.getText();
+        boolean encontrada = false;
+        
+        for(Serie serie : series){
+            if(serie.getSerTitulo().equals(SerieTitulo)){
+                encontrada = true;
+                String msg = "Serie disponible: " + serie.getSerTitulo() + " consta de " + serie.getSerEp()+ " episodios en " + serie.getSerTemp() +" temporadas";
+                NotificacionesSerie.setText(msg);
+                System.out.println(msg);
+                
+            }        
+        }
+        if(!encontrada){
+            String msg = "La serie que busca no fue encontrada";
+            NotificacionesSerie.setText(msg);
+            System.out.println(msg);
+        } 
+    }//GEN-LAST:event_BuscarSerieActionPerformed
+
+    private void EliminarPelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarPelActionPerformed
+        
+       Pelicula pelicula = BuscarPelicula();
+        
+        try {
+            peliculaRepo.deleteById(pelicula.getPelId());
+            String msg = "Se eliminó exitosamente la pelicula " + pelicula.getPelTitulo();
+            NotificacionesPel.setText(msg);
+            System.out.println(msg);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+    }//GEN-LAST:event_EliminarPelActionPerformed
+
+    private void EditarUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarUsActionPerformed
+        String aliasUs = BuscarUsuario();
+        if(aliasUs != null){
+            Usuario usuario = new Usuario();
+            usuario.setUsAlias(aliasUs);
+            usuario.setUsNombre(tfUsuarioNombre.getText());
+            usuario.setUsApellido(tfUsuarioApellido.getText());
+            try {
+                usuarioRepo.save(usuario);
+                String msg = "Se actualizó correctamente el usuario " + usuario.getUsNombre() + " " + usuario.getUsApellido();
+                NotificacionesUs.setText(msg);
+                System.out.println(msg);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            System.out.println("No se encontró este usuario");
+        }
+
+    }//GEN-LAST:event_EditarUsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,26 +516,46 @@ public class Ventana extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BuscarSerie;
     private javax.swing.JButton CrearPel;
-    private javax.swing.JLabel Notificaciones;
+    private javax.swing.JButton CrearSerie;
+    private javax.swing.JButton CrearUs;
+    private javax.swing.JButton EditarUs;
+    private javax.swing.JButton EliminarPel;
+    private javax.swing.JLabel NotificacionesPel;
+    private javax.swing.JLabel NotificacionesSerie;
+    private javax.swing.JLabel NotificacionesUs;
+    private javax.swing.JFormattedTextField ftSerCap;
+    private javax.swing.JFormattedTextField ftSerTemp;
     private javax.swing.JFormattedTextField ftfPelAño;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel jpPeliculas;
+    private javax.swing.JPanel jpSeries;
+    private javax.swing.JPanel jpUsuarios;
     private javax.swing.JScrollPane jspPelRes;
     private javax.swing.JTextField tfApellidoDir;
     private javax.swing.JTextField tfNombreDir;
     private javax.swing.JTextArea tfPelRes;
     private javax.swing.JTextField tfPelTitulo;
+    private javax.swing.JTextField tfSerTitulo;
+    private javax.swing.JTextField tfUsuarioAlias;
+    private javax.swing.JTextField tfUsuarioApellido;
+    private javax.swing.JTextField tfUsuarioNombre;
     // End of variables declaration//GEN-END:variables
 
-    private Pelicula obtenerDatosDeFormulario() {
+    private Pelicula obtenerDatosDeFormularioPel() {
         Pelicula pelicula = new Pelicula();
         
         pelicula.setPelTitulo(tfPelTitulo.getText());
@@ -292,6 +585,55 @@ public class Ventana extends javax.swing.JFrame {
         }
                   
         return director;
+    }
+
+    private Usuario obtenerDatosDeFormularioUs() {
+        Usuario usuario = new Usuario();
+        
+        usuario.setUsAlias(tfUsuarioAlias.getText()); 
+        usuario.setUsNombre(tfUsuarioNombre.getText());
+        usuario.setUsApellido(tfUsuarioApellido.getText());
+               
+        return usuario;
+    }
+
+    private Serie obtenerDatosDeFormularioSerie() {
+        Serie serie = new Serie();
+        
+        serie.setSerTitulo(tfSerTitulo.getText());
+        serie.setSerTemp(ftSerTemp.getText());
+        serie.setSerEp(ftSerCap.getText());
+        
+        return serie;
+    }
+
+    private Pelicula BuscarPelicula() {
+        Pelicula pelicula = new Pelicula();
+        String PelTitulo = tfPelTitulo.getText();
+        
+        List<Pelicula> peliculas = peliculaRepo.findAll();
+        
+        for(Pelicula pel : peliculas){
+            if(pel.getPelTitulo().equals(PelTitulo)){
+                return pel;
+            }
+        }
+        
+        return pelicula;
+    }
+
+    private String BuscarUsuario() {
+
+        String AliasUsuario = tfUsuarioAlias.getText();
+        List<Usuario> usuarios = usuarioRepo.findAll();
+        
+        for(Usuario us : usuarios){
+            if(us.getUsAlias().equals(AliasUsuario)){
+                return us.getUsAlias();
+            }
+        }
+        
+        return null;
     }
 
 
