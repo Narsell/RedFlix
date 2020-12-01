@@ -5,10 +5,15 @@
  */
 package com.redflix.app.repos;
 
+import com.redflix.app.modelos.Contenidos;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author Daniel
  */
-public class ContenidosRepo {
+@Repository
+public interface ContenidosRepo extends JpaRepository<Contenidos, Long>{
     
 }

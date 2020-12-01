@@ -7,10 +7,12 @@ package com.redflix.app.vista;
 
 import com.redflix.app.RedflixApplication;
 import com.redflix.app.SpringContext;
+import com.redflix.app.modelos.Contenidos;
 import com.redflix.app.modelos.Director;
 import com.redflix.app.modelos.Pelicula;
 import com.redflix.app.modelos.Serie;
 import com.redflix.app.modelos.Usuario;
+import com.redflix.app.repos.ContenidosRepo;
 import com.redflix.app.repos.DirectorRepo;
 import com.redflix.app.repos.PeliculaRepo;
 import com.redflix.app.repos.SerieRepo;
@@ -28,6 +30,7 @@ public class Ventana extends javax.swing.JFrame {
     DirectorRepo directorRepo;
     UsuarioRepo usuarioRepo;
     SerieRepo serieRepo;
+    ContenidosRepo contRepo;
 
     /**
      * Creates new form Ventana
@@ -41,6 +44,7 @@ public class Ventana extends javax.swing.JFrame {
         directorRepo = SpringContext.getBean(DirectorRepo.class);
         usuarioRepo = SpringContext.getBean(UsuarioRepo.class);
         serieRepo = SpringContext.getBean(SerieRepo.class);
+        contRepo = SpringContext.getBean(ContenidosRepo.class);
     }
 
     /**
@@ -381,6 +385,8 @@ public class Ventana extends javax.swing.JFrame {
         pelicula.setPelId(id);
         try{
             peliculaRepo.save(pelicula);
+            Contenidos contenido = RegistrarComoContenido(pelicula.getPelId(), "pelicula");
+            contRepo.save(contenido);
             NotificacionesPel.setText("Se registró correctamente la pelicula " + pelicula.getPelTitulo());
             System.out.println("Se registró correctamente la pelicula " + pelicula.getPelTitulo());
         }catch(Exception e){
@@ -415,6 +421,8 @@ public class Ventana extends javax.swing.JFrame {
         
         try {
             serieRepo.save(serie);
+            Contenidos contenido = RegistrarComoContenido(serie.getSerId(), "serie");
+            contRepo.save(contenido);
             NotificacionesSerie.setText("Se registró correctamente la serie " + serie.getSerTitulo());
             System.out.println("Se registró correctamente la serie " + serie.getSerTitulo());
         } catch (Exception e) {
@@ -449,7 +457,9 @@ public class Ventana extends javax.swing.JFrame {
        Pelicula pelicula = BuscarPelicula();
         
         try {
-            peliculaRepo.deleteById(pelicula.getPelId());
+            peliculaRepo.deleteById(pelicula.getPelId());      
+            Contenidos contenido = EncontrarComoContenido(pelicula.getPelId(), "pelicula");
+            contRepo.deleteById(contenido.getContId());
             String msg = "Se eliminó exitosamente la pelicula " + pelicula.getPelTitulo();
             NotificacionesPel.setText(msg);
             System.out.println(msg);
@@ -634,6 +644,30 @@ public class Ventana extends javax.swing.JFrame {
         }
         
         return null;
+    }
+
+    private Contenidos RegistrarComoContenido(Long contRefId, String tipo) {
+        Contenidos contenido = new Contenidos();
+        Long id;
+        id=null;
+        contenido.setContId(id);
+        contenido.setContRefId(contRefId);
+        contenido.setContTipo(tipo);
+        
+        return contenido;
+    }
+
+    private Contenidos EncontrarComoContenido(Long pelId, String tipo) {
+        Contenidos contenido = new Contenidos();
+        
+        List<Contenidos> contenidos = contRepo.findAll();
+        
+        for(Contenidos cont : contenidos) {
+            if(cont.getContRefId().equals(pelId) && cont.getContTipo().equals(tipo)){
+                return cont;
+            }
+        }
+        return contenido;
     }
 
 
